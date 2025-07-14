@@ -1,0 +1,23 @@
+
+### Example gdb commandfile for debugging EBCVM binary (EbcDxe)
+## Run commandfile with:
+## gdb -x gdb-ebc-cmdfile.txt
+## use gdb_uefi_helper.py to calculate correct offsets of .text and .data
+## sections of target EBCVM binary
+
+
+add-symbol-file edk2/Build/OvmfX64/DEBUG_GCC/X64/EbcDxe.debug 0x3efe6240 -s .data 0x3eff15c0 
+
+
+b  EbcLLCALLEXNative
+b  skip_expansion
+b  EbcLLEbcInterpret
+b  EbcLLExecuteEbcImageEntryPoint
+b  TdVmCall
+b  EbcInterpret
+b  EbcExecute
+b  GetEBCStack
+set logging file gdb-ebc-testing.log
+set logging enabled on
+target remote :1234
+c
